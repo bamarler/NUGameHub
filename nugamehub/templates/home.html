@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}Home - NuGameHub{% endblock %}
+{% load static %}
+
+{% block title %}Home - NUGameHub{% endblock %}
 
 {% block content %}
-    <h1>Welcome to NuGameHub</h1>
-    <p>An Exclusive Social Gaming Lounge for Northeastern Students.</p>
-    <h2>Most Played Games</h2>
-    <p>Here we will display the current most played games...</p>
+<div class="home-background" style="background-image: url('{% static 'images/home-background.png' %}');">
+    <div class="overlay"></div>
+    <div class="home-text">
+        <h1>Welcome to NUGameHub</h1>
+        <h2>Northeastern's Exclusive Social Gaming Lounge</h2>
+    </div>
+</div>
 {% endblock %}

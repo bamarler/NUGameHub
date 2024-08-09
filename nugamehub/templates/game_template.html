@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Play Game - NUGameHub{% endblock %}
+
+{% block content %}
+<div class="game-background" style="background-image: url('{% static 'images/game-background.png' %}');">
+    <div class="overlay"></div>
+    <div class="game-layout">
+        <div class="game-info">
+            <div class="info-box">
+                <h1>{{ game.name }}</h1>
+                <p>{{ game.description }}</p>
+                <h2>Instructions</h2>
+                <p>{{ game.instructions }}</p>
+            </div>
+        </div>
+        <div id="game-container" class="game-container"></div>
+    </div>
+    <button id="fullscreen-btn" class="fullscreen-btn">Fullscreen</button>
+</div>
+
+<!-- Include Phaser.js -->
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+<!-- Include the uploaded game script -->
+<script src="{{ game.js_file.url }}"></script>
+
+<script>
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const gameContainer = document.getElementById('game-container');
+    const gameInfo = document.querySelector('.game-info');
+
+    fullscreenBtn.addEventListener('click', () => {
+        gameContainer.classList.toggle('fullscreen');
+        gameInfo.classList.toggle('hidden');
+        fullscreenBtn.classList.toggle('active');
+    });
+</script>
+{% endblock %}

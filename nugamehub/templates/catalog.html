@@ -1,24 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NuGameHub - Game Catalog</title>
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'catalog' %}">Game Catalog</a></li>
-                <li><a href="{% url 'leaderboards' %}">Leaderboards</a></li>
-                <li><a href="{% url 'social' %}">Social</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h1>Game Catalog</h1>
-        <p>Content coming soon...</p>
-    </main>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Game Catalog - NUGameHub{% endblock %}
+
+{% block content %}
+<div class="catalog-background" style="background-image: url('{% static 'images/catalog-background.png' %}');">
+    <div class="overlay"></div>
+    <h1 class="catalog-title">Game Catalog</h1>
+    <div class="game-list">
+        {% for game in games %}
+            <a href="{% url 'game_view' game.id %}" class="game-item">
+                {% if game.cover_image %}
+                    <img src="{{ game.cover_image.url }}" alt="{{ game.name }}">
+                {% else %}
+                    <div class="game-placeholder">{{ game.name }}</div>
+                {% endif %}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,297 @@
+/* Reset some basic styles */
+body, h1, h2, h3, h4, h5, h6, p, ul {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Background color */
+}
+
+/* Header styling */
+.site-header {
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-radius: 20px; /* Rounded corners */
+    margin: 20px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.main-nav a:hover {
+    color: #cc0000; /* Red on hover */
+}
+
+.logo a {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+.account img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.home-page .content {
+    margin-top: 0;
+}
+
+/* Home page background */
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+.home-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 1;
+}
+
+.home-text h1 {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.home-text h2 {
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+/* Catalog Background */
+.catalog-background {
+    position: fixed; /* Fixes the background to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Ensures it covers the full viewport height */
+    background-size: cover;
+    background-position: center;
+    z-index: -1; /* Places the background behind the content */
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* 60% opacity black overlay */
+    z-index: 0;
+}
+
+/* Catalog Title */
+.catalog-title {
+    position: relative;
+    text-align: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    margin-top: 100px; /* Positioning under the header */
+    z-index: 1; /* Ensure it stays above the overlay */
+}
+
+/* Catalog Styling */
+.game-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Twice the width */
+    gap: 20px;
+    padding: 20px;
+    z-index: 1; /* Ensure it stays above the overlay */
+    position: relative;
+}
+
+.game-item {
+    position: relative;
+    background-color: #f4f4f4;
+    border-radius: 15px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.game-item:hover {
+    transform: translateY(-10px);
+}
+
+.game-item img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1; /* Enforces a 2:1 aspect ratio */
+    object-fit: cover; /* Ensures the image covers the container */
+    border-radius: 15px;
+}
+
+.game-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 2 / 1;
+    background-color: #cccccc;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 15px;
+}
+
+/* Game Background */
+.game-background {
+    position: fixed; /* Fixes the background */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    z-index: -2; /* Keeps it behind everything */
+}
+
+.overlay {
+    position: fixed; /* Fixes the overlay */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* 60% opacity black overlay */
+    z-index: -1; /* Keeps it above the background but behind content */
+}
+
+/* Layout for the game page */
+.game-layout {
+    display: flex;
+    height: calc(100vh - 100px); /* Adjust height to account for the top margin */
+    padding: 20px; /* Padding for the left and right */
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1; /* Keeps it above the overlay */
+    margin-top: 100px; /* Add 100px margin at the top */
+}
+
+.game-info {
+    flex: 1;
+    max-width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.info-box {
+    background-color: rgba(255, 255, 255, 0.8); /* 80% opacity white box */
+    padding: 20px;
+    border-radius: 10px;
+    color: black; /* White text color */
+    text-align: center;
+}
+
+.game-info h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.game-info p, .game-info h2 {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.game-container {
+    flex: 3;
+    margin-left: 20px;
+    background-color: #000; /* Black background for the game area */
+    border-radius: 10px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: calc(100vh - 140px); /* Ensure the game container fits within the viewport */
+}
+
+.game-container canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Ensures the game canvas scales properly */
+}
+
+/* Adjusted Fullscreen mode for the game container */
+.fullscreen {
+    position: absolute; /* Use absolute positioning within the container */
+    top: 100px; /* Maintain the top margin in fullscreen mode */
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    margin: 0;
+    border-radius: 10px; /* Retain some rounding for a polished look */
+    z-index: 3; /* On top of everything */
+    background-color: #000; /* Ensure the background stays black */
+}
+
+.hidden {
+    display: none;
+}
+
+.fullscreen-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 4; /* Make sure it's above the game */
+}
+
+.fullscreen-btn.active {
+    background-color: rgba(204, 0, 0, 0.8); /* Change color in fullscreen mode */
+}

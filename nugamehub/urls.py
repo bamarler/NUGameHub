@@ -16,12 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('catalog/', views.catalog, name='catalog'),
+    path('catalog/<int:game_id>/', views.game_view, name='game_view'),
     path('leaderboards/', views.leaderboards, name='leaderboards'),
     path('social/', views.social, name='social'),
-]
+    path('account/', views.account_page, name='account_page'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
