@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Game Catalog - SPADE{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/catalog_styles.css' %}">
+<div class="catalog-background" style="background-image: url('{% static 'images/catalog-background.png' %}');">
+    <div class="overlay"></div>
+    <h1 class="catalog-title">Game Catalog</h1>
+    <div class="game-list">
+        {% for game in games %}
+            <a href="{% url 'game_view' game.id %}" class="game-item">
+                {% if game.cover_image %}
+                    <img src="{{ game.cover_image.url }}" alt="{{ game.name }}">
+                {% else %}
+                    <div class="game-placeholder">{{ game.name }}</div>
+                {% endif %}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

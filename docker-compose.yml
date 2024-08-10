@@ -1,12 +1,10 @@
-version: '4'
+version: "3.12"
 
 services:
-  web:
-    build: .
+  app:
+    build:
+      context: .
     ports:
-      - "8000:8000"
+      - 8000:8000
     volumes:
-      - .:/app
-    environment:
-      - DJANGO_SETTINGS_MODULE=spade.settings_test # Options: settings_dev, settings_test, settings_prod
-    command: python manage.py runserver 0.0.0.0:8000
+      - ./app:/spade

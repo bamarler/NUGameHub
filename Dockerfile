@@ -1,17 +1,19 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.10-slim
+FROM python:3.12-alpine3.19
+LABEL maintainer="spade.com"
 
-# Set the working directory in the container
-WORKDIR /app
+ENV PYTHONUNBUFFERED 1
 
-# Copy the current directory contents into the container at /app
-COPY . /app/
+COPY .requirements.txt /requirements.txt
+COPY ./app /spade
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Make port 8000 available to the world outside this container
+WORKDIR /spade
 EXPOSE 8000
 
-# Run the Django server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+RUN python -m venv /py && \
+    /py/bin/pip install --upgrade pip && \
+    /py/bin/pip install -r /requirements.txt && \
+    adduser --disabled-password --no-create-home app
+
+ENV PATH="/py/bin:$PATH"
+
+USER app
