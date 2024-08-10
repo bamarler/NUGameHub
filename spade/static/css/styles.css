@@ -10,6 +10,110 @@ body {
     background-color: #f4f4f4; /* Background color */
 }
 
+/* Login Styling */
+.login-signup-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+}
+
+/* Centered container for the forms and header */
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 500px;
+    margin: 150px auto;
+    text-align: center;
+    color: white;
+}
+
+.container h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Form container styling */
+.form-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: left;
+}
+
+/* Tabs for switching between login and signup */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.tab {
+    background-color: #ccc;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    flex: 1;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.tab.active {
+    background-color: #333;
+    color: white;
+}
+
+/* Form content styling */
+.form-content {
+    display: none;
+}
+
+.form-content.active {
+    display: block;
+}
+
+.form-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-content form input,
+.form-content form button {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.form-content form button {
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.form-content form button:hover {
+    background-color: #555;
+}
+
 /* Header styling */
 .site-header {
     background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
@@ -63,7 +167,7 @@ body {
     margin-top: 0;
 }
 
-/* Home page background */
+/* Home Styling */
 .home-background {
     position: relative;
     width: 100%;

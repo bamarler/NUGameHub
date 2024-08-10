@@ -1,5 +1,5 @@
 """
-URL configuration for NUGameHub project.
+URL configuration for SPADE.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
@@ -28,4 +29,9 @@ urlpatterns = [
     path('leaderboards/', views.leaderboards, name='leaderboards'),
     path('social/', views.social, name='social'),
     path('account/', views.account_page, name='account_page'),
+    # Combined login/signup view
+    path('login/', views.login_signup, name='login_signup'),
+    # These are needed for the login view to function properly
+    path('auth_login/', auth_views.LoginView.as_view(), name='login'),  # Default Django login view
+    path('auth_signup/', views.login_signup, name='signup'),  # Your custom signup view
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
