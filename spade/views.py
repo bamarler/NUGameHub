@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.forms import UserChangeForm
+from django.contrib import messages
 from .forms import CustomUserCreationForm
 from .models import Game
 
@@ -15,8 +17,21 @@ def home(request):
     return render(request, 'home.html')
 
 @login_required
-def account_page(request):
-    return render(request, 'account.html')
+def account_view(request):
+    if request.method == 'POST':
+        form = UserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account was updated successfully!')
+            return redirect('account')
+    else:
+        form = UserChangeForm(instance=request.user)
+    
+    return render(request, 'account.html', {'form': form})
+
+def logout_view(request):
+    auth_logout(request)
+    return redirect('login_signup')  # Redirect to your combined login/signup view
 
 @login_required
 def leaderboards(request):

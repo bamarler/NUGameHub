@@ -23,15 +23,16 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth_login/', auth_views.LoginView.as_view(), name='login'),  # Default Django login view
+    # Combined login/signup view
+    path('login/', views.login_signup, name='login_signup'),
+    path('signup/', views.login_signup, name='signup'),
     path('', views.home, name='home'),
+    path('account/', views.account_view, name='account'),
+    path('logout/', views.logout_view, name='logout'),
     path('catalog/', views.catalog, name='catalog'),
     path('catalog/<int:game_id>/', views.game_view, name='game_view'),
     path('leaderboards/', views.leaderboards, name='leaderboards'),
     path('social/', views.social, name='social'),
-    path('account/', views.account_page, name='account_page'),
-    # Combined login/signup view
-    path('login/', views.login_signup, name='login_signup'),
-    # These are needed for the login view to function properly
-    path('auth_login/', auth_views.LoginView.as_view(), name='login'),  # Default Django login view
-    path('auth_signup/', views.login_signup, name='signup'),  # Your custom signup view
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

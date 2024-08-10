@@ -12,16 +12,16 @@
         <div class="header-container">
             <nav class="main-nav">
                 <ul>
-                    <li><a href="{% url 'catalog' %}">Games</a></li>
+                    <li><a href="{% url 'catalog' %}">Catalog</a></li>
                     <li><a href="{% url 'leaderboards' %}">Leaderboards</a></li>
                     <li><a href="{% url 'social' %}">Social</a></li>
                 </ul>
             </nav>
             <div class="logo">
-                <a href="{% url 'home' %}">SPADE</a>
+                <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="Home"></a>
             </div>
             <div class="account">
-                <a href="{% url 'account_page' %}"><img src="{% static 'images/account-icon-white.png' %}" alt="Account"></a>
+                <a href="{% url 'account' %}"><img src="{% static 'images/avatar_head.png' %}" alt="Account"></a>
             </div>
         </div>
     </header>

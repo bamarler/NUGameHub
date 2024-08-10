@@ -5,11 +5,18 @@
 {% block title %}Home - SPADE{% endblock %}
 
 {% block content %}
-<div class="home-background" style="background-image: url('{% static 'images/home-background.png' %}');">
+<div class="home-background">
+    <!-- Embed YouTube video with autoplay, loop, and start time at 30 seconds -->
+    <iframe class="video-background" 
+        src="https://www.youtube.com/embed/d-b8gHsWEJo?autoplay=1&mute=1&loop=1&start=30&playlist=d-b8gHsWEJo&controls=0&showinfo=0&autohide=1&modestbranding=1" 
+        frameborder="0" 
+        allowfullscreen>
+    </iframe>
     <div class="overlay"></div>
     <div class="home-text">
         <h1>Welcome to SPADE</h1>
         <h2>Northeastern's Exclusive Social Gaming Lounge</h2>
+        <a href="{% url 'catalog' %}" class="explore-button">Explore Catalog</a>
     </div>
 </div>
 {% endblock %}
