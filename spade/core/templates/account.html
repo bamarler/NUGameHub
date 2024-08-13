@@ -10,27 +10,27 @@
     <div class="overlay"></div>
     <div class="account-details">
         <h1>Account Information</h1>
+        
         <form method="post">
             {% csrf_token %}
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="{{ user.username }}" readonly>
-
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}">
-
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}">
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="{{ user.email }}">
-
+            {{ form.as_p }}
+            <label for="password">Password:</label>
             <div class="password-section">
-                <label for="password">Password:</label>
                 <input type="password" id="password" name="password" value="********" readonly>
-                <button type="button">Change Password</button>
+                <button type="button" onclick="window.location.href='{% url 'password_change' %}'">Change Password</button>
             </div>
-
             <button type="submit">Update Information</button>
+            
+            <!-- Display messages -->
+            <div class="messages">
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
 
             {% if user.is_staff %}
                 <a href="/admin/" class="admin-button">Go to Admin Page</a>

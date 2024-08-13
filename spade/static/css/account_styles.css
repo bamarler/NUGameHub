@@ -35,16 +35,19 @@
     margin-bottom: 30px;
     font-size: 28px;
     text-align: center;
+    color: white;
 }
 
 .account-details form {
     margin-bottom: 20px;
+    display: block;
 }
 
 .account-details label {
     font-size: 16px;
     margin-bottom: 10px;
     display: block;
+    color: white;
 }
 
 .account-details input {
@@ -95,6 +98,7 @@
     width: 100%;
     text-align: center;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
 .admin-button:hover {
@@ -104,14 +108,18 @@
 /* Style for the password change section */
 .password-section {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    margin: 0;
 }
 
 .password-section input {
-    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
     margin-right: 10px;
+    margin-bottom: 0;
 }
 
 .password-section button {
@@ -122,8 +130,27 @@
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+    margin-top: 0;
 }
 
 .password-section button:hover {
     background-color: #a600a6;
+}
+
+.account-details .messages {
+    font-size: 12px;  /* Smaller font size */
+    color: #a600a6;  /* Purple color */
+    margin-top: 10px;  /* Some margin for spacing */
+}
+
+/* Style for the instructional text below the input fields */
+.account-details  {
+    font-size: 0.8vw;  /* Smaller font size for informational text */
+    color: #a600a6;  /* Lighter color for informational text */
+}
+
+/* If using unordered lists for bullet points */
+.account-details ul {
+    padding-left: 20px;  /* Add padding to the left to match the form container's padding */
+    margin: 0;
 }

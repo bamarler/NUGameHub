@@ -1,16 +1,40 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
+from django.contrib.auth import login
+from django.shortcuts import get_object_or_404
 from .forms import CustomUserCreationForm
+from .forms import UserUpdateForm
 from .models import Game
 
 def login_signup(request):
-    login_form = AuthenticationForm()
-    signup_form = CustomUserCreationForm()
-    return render(request, 'login_signup.html', {'login_form': login_form, 'signup_form': signup_form})
+    if request.method == 'POST':
+        if 'login' in request.POST:
+            login_form = AuthenticationForm(data=request.POST)
+            signup_form = CustomUserCreationForm()
+            if login_form.is_valid():
+                login(request, login_form.get_user())
+                return redirect('home')
+            else:
+                return render(request, 'login_signup.html', {'login_form': login_form, 'signup_form': signup_form, 'active_tab': 'login'})
+
+        elif 'signup' in request.POST:
+            signup_form = CustomUserCreationForm(request.POST)
+            login_form = AuthenticationForm()
+            if signup_form.is_valid():
+                user = signup_form.save()
+                login(request, user)
+                return redirect('home')
+            else:
+                return render(request, 'login_signup.html', {'login_form': login_form, 'signup_form': signup_form, 'active_tab': 'signup'})
+    else:
+        login_form = AuthenticationForm()
+        signup_form = CustomUserCreationForm()
+        return render(request, 'login_signup.html', {'login_form': login_form, 'signup_form': signup_form, 'active_tab': 'login'})
 
 @login_required
 def home(request):
@@ -19,27 +43,41 @@ def home(request):
 @login_required
 def account_view(request):
     if request.method == 'POST':
-        form = UserChangeForm(request.POST, instance=request.user)
+        form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Your account was updated successfully!')
-            return redirect('account')
+            messages.success(request, 'Your account information has been updated successfully.')
+            return redirect('account')  # Replace 'account' with your URL name for the account page
+        else:
+            messages.error(request, 'Please correct the error below.')
     else:
-        form = UserChangeForm(instance=request.user)
+        form = UserUpdateForm(instance=request.user)
     
-    return render(request, 'account.html', {'form': form})
+    context = {
+        'form': form
+    }
+    return render(request, 'account.html', context)
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important! Keeps the user logged in.
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('account')  # Redirect to the account page
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'password_change.html', {
+        'form': form
+    })
 
 def logout_view(request):
     auth_logout(request)
     return redirect('login_signup')  # Redirect to your combined login/signup view
-
-@login_required
-def leaderboards(request):
-    return render(request, 'leaderboards.html')
-
-@login_required
-def social(request):
-    return render(request, 'social.html')
 
 @login_required
 def catalog(request):
@@ -47,6 +85,21 @@ def catalog(request):
     return render(request, 'catalog.html', {'games': games})
 
 @login_required
-def game_view(request, game_id):
-    game = Game.objects.get(pk=game_id)
+def game_view(request, slug):
+    game = get_object_or_404(Game, slug=slug)
     return render(request, 'game_template.html', {'game': game})
+
+@login_required
+def leaderboards(request):
+    return render(request, 'leaderboards.html')
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def develop(request):
+    return render(request, 'develop.html')
+
+@login_required
+def social(request):
+    return render(request, 'social.html')
+
+

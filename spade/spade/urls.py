@@ -24,15 +24,16 @@ from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth_login/', auth_views.LoginView.as_view(), name='login'),  # Default Django login view
-    # Combined login/signup view
     path('login/', views.login_signup, name='login_signup'),
     path('signup/', views.login_signup, name='signup'),
+    path('logout/', views.logout_view, name='logout'),
     path('', views.home, name='home'),
     path('account/', views.account_view, name='account'),
-    path('logout/', views.logout_view, name='logout'),
+    path('password_change/', views.change_password, name='password_change'),
     path('catalog/', views.catalog, name='catalog'),
-    path('catalog/<int:game_id>/', views.game_view, name='game_view'),
+    path('catalog/<slug:slug>/', views.game_view, name='game_view'),
     path('leaderboards/', views.leaderboards, name='leaderboards'),
+    path('develop/', views.develop, name='develop'),
     path('social/', views.social, name='social'),
 ]
 

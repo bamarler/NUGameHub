@@ -21,3 +21,10 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class UserUpdateForm(forms.ModelForm):
+    username = forms.CharField(max_length=150, required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']

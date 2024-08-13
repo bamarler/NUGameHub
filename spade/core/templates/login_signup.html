@@ -12,21 +12,21 @@
         <h1>Welcome to SPADE</h1>
         <div class="form-container">
             <div class="tabs">
-                <button id="loginTab" class="tab active" onclick="showForm('login')">Login</button>
-                <button id="signupTab" class="tab" onclick="showForm('signup')">Sign Up</button>
+                <button id="loginTab" class="tab {% if active_tab == 'login' %}active{% endif %}" onclick="showForm('login')">Login</button>
+                <button id="signupTab" class="tab {% if active_tab == 'signup' %}active{% endif %}" onclick="showForm('signup')">Sign Up</button>
             </div>
-            <div id="loginForm" class="form-content active">
+            <div id="loginForm" class="form-content {% if active_tab == 'login' %}active{% endif %}">
                 <form method="post" action="{% url 'login' %}">
                     {% csrf_token %}
                     {{ login_form.as_p }}
-                    <button type="submit">Login</button>
+                    <button type="submit" name="login">Login</button>
                 </form>
             </div>
-            <div id="signupForm" class="form-content">
+            <div id="signupForm" class="form-content {% if active_tab == 'signup' %}active{% endif %}">
                 <form method="post" action="{% url 'signup' %}">
                     {% csrf_token %}
                     {{ signup_form.as_p }}
-                    <button type="submit">Sign Up</button>
+                    <button type="submit" name="signup">Sign Up</button>
                 </form>
             </div>
         </div>
