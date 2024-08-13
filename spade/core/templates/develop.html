@@ -1,9 +1,74 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Develop - SPADE{% endblock %}
 
 {% block content %}
-<h1>Develop Page</h1>
-<p>Welcome to the development section of SPADE. Here you can manage and develop new features.</p>
-<!-- Add your content here -->
+<link rel="stylesheet" href="{% static 'css/develop_styles.css' %}">
+<div class="develop-background" style="background-image: url('{% static 'images/develop-background.png' %}');">
+    <div class="overlay"></div>
+    <div class="develop-container">
+        <div class="dev-panel">
+            <h2>Development Panel</h2>
+            <!-- Filter Dropdown -->
+            <label for="statusFilter">Filter by Status:</label>
+            <select id="statusFilter">
+                <option value="all">All</option>
+                <option value="developing">Developing</option>
+                <option value="in_review">In Review</option>
+                <option value="published">Published</option>
+            </select>
+            <!-- Create Game form -->
+            <form method="post" action="{% url 'create_game' %}" id="createGameForm">
+                {% csrf_token %}
+                <input type="hidden" name="game_name" id="gameNameInput">
+                <input type="hidden" name="template_js_path" id="templateJsPath" value="{% static 'js/game-template.js' %}">
+                <button type="button" id="createGame">Create New Game</button>
+            </form>
+            <ul id="gameList">
+                {% for game in games %}
+                <li data-slug="{{ game.slug }}" data-status="{{ game.status }}" class="game-item">
+                    <a>{{ game.name }} - {{ game.get_status_display }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="game-view">
+            <iframe id="gameFrame" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('createGame').addEventListener('click', function() {
+        const gameName = prompt('Enter the name of the new game:');
+        if (gameName) {
+            document.getElementById('gameNameInput').value = gameName;
+            document.getElementById('createGameForm').submit();
+        }
+    });
+
+    const gameItems = document.querySelectorAll('.game-item');
+    gameItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const slug = this.getAttribute('data-slug');
+            const frame = document.getElementById('gameFrame');
+            frame.src = `/catalog/${slug}/`;
+        });
+    });
+
+    // Filter games by status
+    document.getElementById('statusFilter').addEventListener('change', function() {
+        const selectedStatus = this.value;
+        gameItems.forEach(item => {
+            const itemStatus = item.getAttribute('data-status');
+            if (selectedStatus === 'all' || itemStatus === selectedStatus) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+</script>
 {% endblock %}

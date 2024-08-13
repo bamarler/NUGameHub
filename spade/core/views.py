@@ -7,6 +7,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import get_object_or_404
+from django.templatetags.static import static
+from django.core.files.base import ContentFile
+
 from .forms import CustomUserCreationForm
 from .forms import UserUpdateForm
 from .models import Game
@@ -96,7 +99,29 @@ def leaderboards(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def develop(request):
-    return render(request, 'develop.html')
+    games = Game.objects.filter(developer=request.user.username)
+    return render(request, 'develop.html', {'games': games})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def create_game(request):
+    if request.method == 'POST':
+        game_name = request.POST.get('game_name', 'Untitled Game')
+        template_js_path = request.POST.get('template_js_path')
+        
+        # Create the new game object
+        game = Game.objects.create(
+            name=game_name,
+            developer=request.user.username,
+            status='developing'
+        )
+        
+        # Set the JS file field
+        #game.js_file.save(f'{game.slug}.js', ContentFile(open(template_js_path, 'rb').read()))
+        game.js_file.save(f'{game.slug}.js', ContentFile(f'// {game_name}'))
+
+        # Redirect to the develop page
+        return redirect('develop')
 
 @login_required
 def social(request):

@@ -34,6 +34,7 @@ urlpatterns = [
     path('catalog/<slug:slug>/', views.game_view, name='game_view'),
     path('leaderboards/', views.leaderboards, name='leaderboards'),
     path('develop/', views.develop, name='develop'),
+    path('develop/create/', views.create_game, name='create_game'),
     path('social/', views.social, name='social'),
 ]
 
