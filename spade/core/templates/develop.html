@@ -8,34 +8,39 @@
 <link rel="stylesheet" href="{% static 'css/develop_styles.css' %}">
 <div class="develop-background" style="background-image: url('{% static 'images/develop-background.png' %}');">
     <div class="overlay"></div>
-    <div class="develop-container">
-        <div class="dev-panel">
-            <h2>Development Panel</h2>
-            <!-- Filter Dropdown -->
-            <label for="statusFilter">Filter by Status:</label>
-            <select id="statusFilter">
-                <option value="all">All</option>
-                <option value="developing">Developing</option>
-                <option value="in_review">In Review</option>
-                <option value="published">Published</option>
-            </select>
-            <!-- Create Game form -->
-            <form method="post" action="{% url 'create_game' %}" id="createGameForm">
-                {% csrf_token %}
-                <input type="hidden" name="game_name" id="gameNameInput">
-                <input type="hidden" name="template_js_path" id="templateJsPath" value="{% static 'js/game-template.js' %}">
-                <button type="button" id="createGame">Create New Game</button>
-            </form>
-            <ul id="gameList">
-                {% for game in games %}
-                <li data-slug="{{ game.slug }}" data-status="{{ game.status }}" class="game-item">
-                    <a>{{ game.name }} - {{ game.get_status_display }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="game-view">
-            <iframe id="gameFrame" src="" frameborder="0"></iframe>
+    <div class="page">
+        <div class="develop-container">
+            <div class="dev-panel">
+                <h2>Development Panel</h2>
+                <!-- Filter Dropdown -->
+                <div class="develop-buttons">
+                    <select id="statusFilter">
+                        <option value="all">All</option>
+                        <option value="developing">Developing</option>
+                        <option value="in_review">In Review</option>
+                        <option value="published">Published</option>
+                    </select>
+                    <!-- Create Game form -->
+                    <form method="post" action="{% url 'create_game' %}" id="createGameForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="game_name" id="gameNameInput">
+                        <input type="hidden" name="template_js_path" id="templateJsPath" value="{% static 'js/game-template.js' %}">
+                        <button type="button" id="createGame">Create New Game</button>
+                    </form>
+                </div>
+                <div class="game-list">
+                    <ul id="gameList">
+                        {% for game in games %}
+                        <li data-slug="{{ game.slug }}" data-status="{{ game.status }}" class="game-item">
+                            <a>{{ game.name }} - {{ game.get_status_display }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="game-view">
+                <iframe id="gameFrame" src="" frameborder="0"></iframe>
+            </div>
         </div>
     </div>
 </div>
@@ -54,7 +59,7 @@
         item.addEventListener('click', function() {
             const slug = this.getAttribute('data-slug');
             const frame = document.getElementById('gameFrame');
-            frame.src = `/catalog/${slug}/`;
+            frame.src = /catalog/${slug}/;
         });
     });
 

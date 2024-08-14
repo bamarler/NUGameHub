@@ -7,7 +7,7 @@
     height: 100vh; /* Ensures it covers the full viewport height */
     background-size: cover;
     background-position: center;
-    z-index: -1; /* Places the background behind the content */
+    z-index: -2; /* Places the background behind the content */
 }
 
 .overlay {
@@ -17,7 +17,15 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6); /* 60% opacity black overlay */
-    z-index: 0;
+    z-index: -1;
+}
+
+.page {
+    margin-top: 125px; /* Positioning under the header */
+    max-height: calc(100vh - 125px);;
+    overflow-y: auto;
+    scrollbar-color: #444 #333;  /* Thumb color and track color */
+    z-index: 1;
 }
 
 .catalog-title {
@@ -26,7 +34,6 @@
     color: white;
     font-size: 48px;
     font-weight: bold;
-    margin-top: 100px; /* Positioning under the header */
     z-index: 1; /* Ensure it stays above the overlay */
 }
 

@@ -7,8 +7,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import get_object_or_404
-from django.templatetags.static import static
 from django.core.files.base import ContentFile
+from django.http import JsonResponse
 
 from .forms import CustomUserCreationForm
 from .forms import UserUpdateForm

@@ -23,7 +23,7 @@
 .account-details {
     background-color: rgba(0, 0, 0, 0.6);
     padding: 25px;
-    border-radius: 10px;
+    border-radius: 20px;
     max-width: calc(100% - 50px); /* Full width minus 50px margin */
     height: calc(100vh - 150px);  /* Full height minus top and bottom margins */
     margin: 125px 25px 25px 25px;

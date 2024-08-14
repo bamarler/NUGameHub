@@ -22,49 +22,66 @@
 
 .develop-container {
     display: flex;
-    height: 100vh;
+    height: calc(100vh - 150px);
     margin: 125px 25px 25px 25px;
-    height: calc(100vh - 150px);  /* Full height minus top and bottom margins */
 }
 
 .dev-panel {
     width: 30%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
     padding: 20px;
     border-radius: 20px; /* Rounded corners */
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .dev-panel h2 {
     margin-bottom: 20px;
+    text-align: center;
 }
 
-.dev-panel button {
-    display: block;
-    margin-bottom: 10px;
+.dev-panel .develop-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.dev-panel .develop-buttons select {
+    padding: 10px;
+    background-color: #444;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    max-width: 100px;
+    cursor: pointer;
+    display: flex;
+    flex: 1;
+}
+
+.dev-panel .develop-buttons button {
+    margin-left: auto;
     padding: 10px;
     background-color: #6d006d;
     border-radius: 5px;
     color: #fff;
     border: none;
     cursor: pointer;
-    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
 }
 
 .dev-panel button:hover {
     background-color: #a600a6;
 }
 
-.dev-panel select {
-    margin-bottom: 20px;
-    padding: 10px;
-    width: 100%;
-    background-color: #444;
-    color: white;
-    border: 0;
-    border-radius: 5px;
-    cursor: pointer;
+.game-list {
+    overflow-y: auto;
+    scrollbar-color: #444 #333;  /* Thumb color and track color */
+    flex-grow: 1;
 }
 
 .dev-panel ul {
@@ -87,7 +104,6 @@
 .game-view {
     width: 100%;
     padding: 0;
-    overflow-y: auto;
 }
 
 .game-view iframe {

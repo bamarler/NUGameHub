@@ -27,3 +27,5 @@ services:
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=changeme
+    volumes:
+      - ./data/db:/var/lib/postgresql/data  # Map the local directory to the container's data directory
