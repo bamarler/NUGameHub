@@ -24,7 +24,7 @@
     margin-top: 125px; /* Positioning under the header */
     max-height: calc(100vh - 125px);;
     overflow-y: auto;
-    scrollbar-color: #444 #333;  /* Thumb color and track color */
+    scrollbar-color: #6d006d #33333300;  /* Thumb color and track color */
     z-index: 1;
 }
 

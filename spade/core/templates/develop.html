@@ -46,33 +46,34 @@
 </div>
 
 <script>
-    document.getElementById('createGame').addEventListener('click', function() {
-        const gameName = prompt('Enter the name of the new game:');
-        if (gameName) {
-            document.getElementById('gameNameInput').value = gameName;
-            document.getElementById('createGameForm').submit();
-        }
-    });
-
-    const gameItems = document.querySelectorAll('.game-item');
-    gameItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const slug = this.getAttribute('data-slug');
-            const frame = document.getElementById('gameFrame');
-            frame.src = /catalog/${slug}/;
-        });
-    });
-
-    // Filter games by status
-    document.getElementById('statusFilter').addEventListener('change', function() {
-        const selectedStatus = this.value;
-        gameItems.forEach(item => {
-            const itemStatus = item.getAttribute('data-status');
-            if (selectedStatus === 'all' || itemStatus === selectedStatus) {
-                item.style.display = '';
-            } else {
-                item.style.display = 'none';
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('createGame').addEventListener('click', function () {
+            const gameName = prompt('Enter the name of the new game:');
+            if (gameName) {
+                document.getElementById('gameNameInput').value = gameName;
+                document.getElementById('createGameForm').submit();
             }
+        });
+
+        const gameItems = document.querySelectorAll('.game-item');
+        gameItems.forEach(item => {
+            item.addEventListener('click', function () {
+                const slug = this.getAttribute('data-slug');
+                window.location.href = `/develop/${slug}/`;
+            });
+        });
+
+        // Filter games by status
+        document.getElementById('statusFilter').addEventListener('change', function () {
+            const selectedStatus = this.value;
+            gameItems.forEach(item => {
+                const itemStatus = item.getAttribute('data-status');
+                if (selectedStatus === 'all' || itemStatus === selectedStatus) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         });
     });
 </script>

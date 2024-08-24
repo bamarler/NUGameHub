@@ -34,7 +34,7 @@
     border-radius: 20px; /* Rounded corners */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .dev-panel h2 {
@@ -55,7 +55,7 @@
     color: white;
     border: 0;
     border-radius: 5px;
-    max-width: 100px;
+    max-width: 110px;
     cursor: pointer;
     display: flex;
     flex: 1;
@@ -74,13 +74,17 @@
     flex: 1;
 }
 
-.dev-panel button:hover {
+.dev-panel .develop-buttons button:hover {
     background-color: #a600a6;
+}
+
+.hidden {
+    display: none;
 }
 
 .game-list {
     overflow-y: auto;
-    scrollbar-color: #444 #333;  /* Thumb color and track color */
+    scrollbar-color: #6d006d #33333300;  /* Thumb color and track color */
     flex-grow: 1;
 }
 
@@ -101,14 +105,131 @@
     background-color: #555555;
 }
 
+/* Game Editor Styling */
+
+/* Header with Back Button Styling */
+.header-with-back {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-with-back .back-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+    line-height: 1;
+    padding: 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+.header-with-back .back-button:hover {
+    color: #a600a6;
+}
+
+.header-with-back h2 {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+/* Form Styling */
+.dev-panel form {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box; /* Ensures it fits within the panel */
+    width: 100%; /* Full width within the panel */
+    overflow-y: auto;
+    scrollbar-color: #6d006d #33333300;  /* Thumb color and track color */
+}
+
+.dev-panel input[type="text"],
+.dev-panel textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    box-sizing: border-box; /* Ensures no overflow */
+}
+
+.dev-panel textarea {
+    resize: vertical; /* Allow resizing vertically */
+}
+
+/* Cover Image Section Styling */
+.cover-image-section {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cover-image img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1; /* Enforces a 2:1 aspect ratio */
+    object-fit: cover; /* Ensures the image covers the container */
+    border-radius: 15px;
+    margin-top: 5px
+}
+
+.upload-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6d006d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.upload-button:hover {
+    background-color: #a600a6;
+}
+
+/* Hide the cover image input but keep it accessible */
+.cover-image-form {
+    display: none;
+}
+
+.update-button {
+    padding: 10px 20px;
+    background-color: #6d006d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    align-self: center; /* Align the button to the left */
+    margin-top: 15px;
+}
+
+.update-button:hover {
+    background-color: #a600a6;
+}
+
+.dev-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Game Editor View */
 .game-view {
     width: 100%;
     padding: 0;
+    border-radius: 20px;
 }
 
-.game-view iframe {
-    width: 100%;
+#editor {
     height: 100%;
-    border: none;
-    border-radius: 20px;
+    border: 1px solid #ccc; /* Optional: add a border to the editor for better visibility */
 }

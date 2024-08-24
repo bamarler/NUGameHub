@@ -12,6 +12,7 @@ from django.http import JsonResponse
 
 from .forms import CustomUserCreationForm
 from .forms import UserUpdateForm
+from .forms import GameUpdateForm
 from .models import Game
 
 def login_signup(request):
@@ -101,6 +102,21 @@ def leaderboards(request):
 def develop(request):
     games = Game.objects.filter(developer=request.user.username)
     return render(request, 'develop.html', {'games': games})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def develop_game(request, slug):
+    game = get_object_or_404(Game, slug=slug)
+
+    if request.method == 'POST':
+        form = GameUpdateForm(request.POST, request.FILES, instance=game)
+        if form.is_valid():
+            form.save()
+            return redirect('develop_game', slug=game.slug)
+    else:
+        form = GameUpdateForm(instance=game)
+
+    return render(request, 'develop_game.html', {'game': game, 'form': form})
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)

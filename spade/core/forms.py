@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 from .models import Game
 
@@ -30,3 +31,21 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
+
+class GameUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = ['name', 'description', 'instructions', 'cover_image']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+            'instructions': forms.Textarea(attrs={'rows': 3}),
+        }
+    
+    def save(self, commit=True):
+        game = super().save(commit=False)
+        # Only update the slug if the name has changed
+        if 'name' in self.changed_data:
+            game.slug = slugify(game.name)
+        if commit:
+            game.save()
+        return game
