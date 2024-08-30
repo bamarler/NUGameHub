@@ -9,11 +9,14 @@ from django.contrib.auth import login
 from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
+from .models import Game
 from .forms import CustomUserCreationForm
 from .forms import UserUpdateForm
 from .forms import GameUpdateForm
-from .models import Game
+from .forms import GameCodeForm
 
 def login_signup(request):
     if request.method == 'POST':
@@ -138,6 +141,28 @@ def create_game(request):
 
         # Redirect to the develop page
         return redirect('develop')
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+@csrf_exempt
+def save_game_js(request, slug):
+    if request.method == 'POST':
+        try:
+            game = Game.objects.get(slug=slug)
+            print(game)
+            data = json.loads(request.body.decode('utf-8'))
+            code = data.get('code')
+
+            if code:
+                form = GameCodeForm(instance=game)
+                form.save_js_code(code)
+                return JsonResponse({'status': 'success'})
+            return JsonResponse({'status': 'fail', 'message': 'No code provided'}, status=400)
+        except Game.DoesNotExist:
+            return JsonResponse({'status': 'fail', 'message': 'Game not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'status': 'fail', 'message': str(e)}, status=500)
+    return JsonResponse({'status': 'fail', 'message': 'Invalid request method'}, status=405)
 
 @login_required
 def social(request):

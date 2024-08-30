@@ -36,6 +36,7 @@ urlpatterns = [
     path('develop/', views.develop, name='develop'),
     path('develop/create/', views.create_game, name='create_game'),
     path('develop/<slug:slug>/', views.develop_game, name='develop_game'),  # Game-specific detail view
+    path('develop/<slug:slug>/save/', views.save_game_js, name='save_game_js'),
     path('social/', views.social, name='social'),
 ]
 

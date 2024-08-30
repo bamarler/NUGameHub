@@ -51,7 +51,26 @@
                 </form>
             </div>
             <div class="game-view">
-                <!-- Replace this section with Ace Editor -->
+                <!-- Header Section -->
+                <div class="editor-header">
+                    <span>JavaScript</span>
+                    <select id="themeSelector" class="editor-dropdown">
+                        <option value="monokai">Monokai</option>
+                        <option value="github">GitHub</option>
+                        <option value="tomorrow">Tomorrow</option>
+                        <option value="kuroir">Kuroir</option>
+                        <option value="twilight">Twilight</option>
+                        <option value="xcode">Xcode</option>
+                        <option value="textmate">TextMate</option>
+                        <option value="solarized_dark">Solarized Dark</option>
+                        <option value="solarized_light">Solarized Light</option>
+                        <option value="terminal">Terminal</option>
+                    </select>
+                    <button id="saveButton" class="editor-button">Save</button>
+                    <button id="playButton" class="editor-button">Play</button>
+                </div>
+
+                <!-- Ace Editor -->
                 <div id="editor"></div>
             </div>
         </div>        
@@ -59,27 +78,147 @@
 </div>
 
 <!-- Include the latest version of Ace Editor -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.9/ace.js" integrity="sha512-f4Yo8w1+9HPuxfhS6l3HIfQX4L2yISbwxWXtReJ6+8UsvUv/1BItUyRXStJHPMgbR3iLhoFHbsvnpTSBDrG1qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/ace.js"></script>
 
 <!-- Initialize Ace Editor -->
 <script>
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.session.setMode("ace/mode/javascript");
+    // Function to save the code to the server
+    function saveCode() {
+        const code = editor.getValue();
+        const csrfToken = "{{ csrf_token }}"; // Get CSRF token
 
-    editor.setOptions({
-        fontSize: "14px",
-        showLineNumbers: true,
-        showGutter: true,
-        vScrollBarAlwaysVisible: true,
-        enableBasicAutocompletion: true,
-        enableSnippets: true,
-        enableLiveAutocompletion: true,
+        return fetch("{% url 'save_game_js' game.slug %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken
+            },
+            body: JSON.stringify({
+                code: code
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // Return JSON response if needed
+            } else {
+                throw new Error(response['message'] + ' (' + response['status'] + ')');
+            }
+        });
+    }
+
+    // Listener for the Save button
+    document.getElementById('saveButton').addEventListener('click', function() {
+        saveCode()
+        .then(() => {
+            alert("Code saved successfully!");
+        })
+        .catch(error => {
+            alert("Error saving code: " + error.message);
+        });
     });
 
-    // Load the game JavaScript file into the editor
-    fetch("{{ game.js_file.url }}")
-        .then(response => response.text())
-        .then(code => editor.setValue(code, 1)); // 1 indicates move cursor to the end
+    // Function to compile and run the code
+    function compileAndRun() {
+        const code = editor.getValue();
+        editor.getSession().clearAnnotations(); // Clear any existing annotations
+
+        try {
+            // Simple syntax check using new Function
+            new Function(code);
+
+            // Save the code
+            saveCode()
+            .then(() => {
+                // No syntax errors, proceed to runtime
+                const editorDiv = document.getElementById('editor');
+                editorDiv.style.display = 'none'; // Hide the editor
+                initializeIframe();
+                document.getElementById('playButton').textContent = 'Edit';
+            })
+            .catch(error => {
+                alert("Error saving code: " + error.message);
+            });
+        } catch (e) {
+            // Handle syntax errors
+            const errorAnnotation = {
+                row: e.lineNumber - 1,
+                column: 0,
+                text: e.message,
+                type: "error" // Error type can be "info", "warning" or "error"
+            };
+            editor.getSession().setAnnotations([errorAnnotation]);
+            displayErrorInEditor("Compilation Error: " + e.message);
+        }
+    }
+
+    // Function to display errors in the editor
+    function displayErrorInEditor(message) {
+        print("Displaying Error")
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'editor-error';
+        errorDiv.textContent = message;
+        editor.container.appendChild(errorDiv);
+    }
+
+    // Function to initialize the Ace Editor (only called once on page load)
+    function initializeEditor() {
+        const editorDiv = document.getElementById('editor');
+        editorDiv.innerHTML = ''; // Clear any existing content
+
+        var editor = ace.edit(editorDiv);
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/javascript");
+
+        editor.setOptions({
+            fontSize: "14px",
+            showLineNumbers: true,
+            showGutter: true,
+            vScrollBarAlwaysVisible: true,
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true,
+        });
+
+        // Load the game JavaScript file into the editor
+        fetch("{{ game.js_file.url }}")
+            .then(response => response.text())
+            .then(code => editor.setValue(code, 1)); // 1 indicates move cursor to the end
+
+        // Save reference to editor for other functions to use
+        window.editor = editor;
+    }
+
+    // Function to initialize the game view (iframe)
+    function initializeIframe() {
+        const editorDiv = document.getElementById('editor');
+        const iframe = document.createElement('iframe');
+        iframe.src = "{{ game.js_file.url }}"; // Load the current game JavaScript file
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+
+        editorDiv.parentNode.insertBefore(iframe, editorDiv.nextSibling); // Insert iframe after editor
+    }
+
+    // Function to handle the Play/Edit button toggle
+    document.getElementById('playButton').addEventListener('click', function() {
+        const playButton = this;
+        const editorDiv = document.getElementById('editor');
+        
+        if (playButton.textContent === 'Play') {
+            compileAndRun(); // Save, compile, and run the code
+        } else {
+            editorDiv.style.display = 'block'; // Show the editor
+            const iframe = editorDiv.nextSibling;
+            if (iframe && iframe.tagName === 'IFRAME') {
+                iframe.remove(); // Remove the iframe when switching back to the editor
+            }
+            playButton.textContent = 'Play';
+        }
+    });
+
+    // Initialize the editor on page load
+    initializeEditor();
+
 </script>
 {% endblock %}

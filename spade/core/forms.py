@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.core.files.base import ContentFile
 
 from .models import Game
 
@@ -49,3 +50,25 @@ class GameUpdateForm(forms.ModelForm):
         if commit:
             game.save()
         return game
+    
+class GameCodeForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = ['js_file']
+
+    def save_js_code(self, code):
+        # Create a ContentFile from the code string
+        content = ContentFile(code.encode('utf-8'))
+        print('\n-')
+        print(self.instance)
+        print('\n-')
+        print(self.instance.js_file)
+        print('\n-')
+        print(self.instance.js_file.name)
+        print('\n-')
+        print(content)
+        # Save the content to the js_file field, using the existing filename
+        self.instance.js_file.save(self.instance.js_file.name, content, save=True)
+
+        # Save the instance to ensure all changes are committed
+        self.instance.save()

@@ -227,9 +227,61 @@
     width: 100%;
     padding: 0;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-header {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px; /* Rounded corners */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.editor-header button {
+    display: inline-block;
+    padding: 7px 10px;
+    background-color: #6d006d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.editor-header span {
+    font-style: italic;
+}
+
+.editor-header button:hover {
+    background-color: #a600a6;
+}
+
+.editor-header select {
+    padding: 7px;
+    background-color: #444;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    max-width: 110px;
+    cursor: pointer;
+    display: flex;
+    flex: 1;
 }
 
 #editor {
     height: 100%;
-    border: 1px solid #ccc; /* Optional: add a border to the editor for better visibility */
+    border-radius: 20px;
+    scrollbar-color: #6d006d #33333300;  /* Thumb color and track color */
+}
+
+.game-view iframe {
+    border-radius: 20px;
+    height: 100%;
 }
